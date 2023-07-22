@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+
+  main-app:
+    build:
+      context: ./app
+    container_name: main-app
+    volumes:
+      - ./consul/nginx-config/nginx.conf:/etc/nginx/nginx.conf
+      - ./consul/index.html:/usr/share/nginx/html/index.html
+      - ./certs/domain.crt:/certs/domain.crt
+      - ./certs/domain.key:/certs/domain.key
+    ports:
+      - "443:443"
+    networks:
+      - micro_network
+
+
+
+  web1:
+    image: nginx:latest
+    container_name: web1
+    volumes:
+      - ./images/img1/image1.jpg:/usr/share/nginx/html/image.jpg
+      - ./configs/nginx1/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - micro_network
+
+
+
+
+  web2:
+    image: nginx:latest
+    container_name: web2
+    volumes:
+      - ./images/img2/image2.jpg:/usr/share/nginx/html/image.jpg
+      - ./configs/nginx2/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - micro_network
+
+
+
+
+  web3:
+    image: nginx:latest
+    container_name: web3
+    volumes:
+      - ./images/img3/image3.jpg:/usr/share/nginx/html/image.jpg
+      - ./configs/nginx3/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - micro_network
+
+
+
+
+  consul_server:
+    build:
+      context: ./consul
+    container_name: consul_server
+    volumes:
+      - ./consul/index.html:/project/index.html
+      - ./html-backup:/project/html-backup
+      - ./conf-backup:/project/conf-backup
+      - ./consul/nginx-config/nginx.conf:/project/nginx.conf
+    networks:
+      - micro_network
+
+
+
+
+networks:
+  micro_network:
+    driver: bridge
+
+
