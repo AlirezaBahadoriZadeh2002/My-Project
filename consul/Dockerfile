@@ -8,13 +8,8 @@ LABEL author="Alireza"
 RUN apk add --update bash supervisor jq  && rm -rf /var/cache/apk/*
 
 
-#RUN apk add --no-cache supervisor
-
-
 SHELL ["/bin/bash" , "-c"]
 
-
-#RUN apk add --update jq && rm -rf /var/cache/apk/*
 
 
 WORKDIR /project
@@ -35,5 +30,6 @@ COPY supervisord.conf /etc/supervisord.conf
 
 
 EXPOSE 8500
+EXPOSE 80
 
 CMD ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]
